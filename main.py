@@ -1,6 +1,6 @@
 import numpy as np
 def readAutomata(f):
-    global states,inputs
+    global states,inputs,final_states
     #deletes comments in file
     forg = open("automata.mat","r")
     for s in forg:
@@ -21,6 +21,10 @@ def readAutomata(f):
     states_line = f.readline()
     for i in range ( number_states ):
         states.append( states_line[i] )
+    #reads final states
+    final_states_line = f.readline()
+    for c in final_states_line:
+        final_states.append(c)
 
     #fills automata_matrix
     mat = np.chararray((number_states,number_inputs), unicode = True)
@@ -68,7 +72,7 @@ def belongs_to_list(char, test):
 #main
 states = []
 inputs = []
-final_states = ['d']
+final_states = []
 f = open(".automata.mat","w")
 automata = readAutomata(f)
 print('inputs:')
