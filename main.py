@@ -56,7 +56,6 @@ def search_automata(automata, states, inputs, s, i, max_i, final_states):
     cur_input = int(inputs[i])
     if i + 1 > max_i:
         if belongs_to_list(str(automata[s][cur_input]), final_states) == True:
-            print('horray!')
             return True
         else:
             return False
@@ -87,6 +86,6 @@ print('automata:')
 print(automata)
 print('Write down a word to test the automata:')
 if (testAutomata(automata, states, inputs, final_states) == True):
-    print('it works!')
+    print('correct word!')
 else:
     print('wrong')
