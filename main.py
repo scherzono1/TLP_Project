@@ -14,12 +14,12 @@ def readAutomata(f):
     number_inputs = int(f.readline())
     number_states = int(f.readline())
 
-    # reads possible inputs of automata
+    # reads possible inputs of automaton
     inputs_line = f.readline()
     for i in range(number_inputs):
         inputs.append(inputs_line[i])
 
-    # reads possible states of automata
+    # reads possible states of automaton
     states_line = f.readline()
     for i in range(number_states):
         states.append(states_line[i])
@@ -38,7 +38,7 @@ def readAutomata(f):
 
 
 def drawAutomata(states, inputs, automata):
-    # function to draw an automata. to me able to vizualize it
+    # function to draw an automaton. to me able to vizualize it
     return 0
 
 
