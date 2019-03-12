@@ -1,43 +1,6 @@
 import numpy as np
 
 
-def readAutomata(f):
-    global states, inputs, final_statesm, num_inputs_NFA
-    # deletes comments in file
-    forg = open("testautomata.mat", "r")
-    for s in forg:
-        if (s[0] != '#'):
-            f.write(s)
-    f.close()
-    f = open(".automata.mat", "r")
-
-    number_inputs = int(f.readline())
-    num_inputs_NFA = number_inputs
-    number_states = int(f.readline())
-
-    # reads possible inputs of automaton
-    inputs_line = f.readline()
-    for i in range(number_inputs):
-        inputs.append(inputs_line[i])
-
-    # reads possible states of automaton
-    states_line = f.readline()
-    for i in range(number_states):
-        states.append(states_line[i])
-    # reads final states
-    final_states_line = f.readline()
-    for c in final_states_line:
-        final_states.append(c)
-
-    # fills automata_matrix
-    mat = np.chararray((number_states, number_inputs), unicode=True)
-    for i in range(number_states):
-        s = f.readline()
-        for j in range(number_inputs):
-            mat[i][j] = s[j]
-    return mat
-
-
 def recSearchStates(start_state, mat, closure):
     if mat[start_state][mat[0].size - 1]:
         for i in range(mat[start_state][mat[0].size - 1]):
@@ -176,19 +139,61 @@ def makeMatrix(packges, result_set):
 
 
 # main
-states = []
-inputs = []
-final_states = []
-num_inputs_NFA = 0
-f = open(".automata.mat", "w")
-automata = readAutomata(f)
-print('inputs:')
-print(inputs)
-print('states:')
-print(states)
-print('automata:')
-print(automata)
+num_inputs_NFA = 3
+
+automata = np.chararray([[[],
+                          [],
+                          []],
+
+                         [[],
+                          [],
+                          [],
+                          ],
+
+                         [[],
+                          [],
+                          [],
+                          ],
+
+                         [[],
+                          [],
+                          [],
+                          ],
+
+                         [[],
+                          [],
+                          [],
+                          ],
+
+                         [[],
+                          [],
+                          [],
+                          ],
+
+                         [[],
+                          [],
+                          [],
+                          ],
+
+                         [[],
+                          [],
+                          [],
+                          ],
+
+                         [[],
+                          [],
+                          [],
+                          ],
+
+                         [[],
+                          [],
+                          [],
+                          ],
+
+                         ])
+
 inputs_NFA = np.chararray(num_inputs_NFA, unicode=True)
+
 for i in range(inputs_NFA.size):
     inputs_NFA[i] = inputs[i]
 
@@ -197,4 +202,3 @@ packges = findPackges(closures, inputs_NFA, automata)
 result_set = makeResultset(packges, inputs_NFA, automata)
 final = makeMatrix(packges, result_set)
 print(final)
-
