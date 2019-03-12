@@ -1,16 +1,19 @@
 #REGULAR EXPRESION OF AUTOMATA: 110*1[0+1]*
 #number of possible inputs
-2
-#number of possible states
 4
+#number of possible states
+7
 #inputs
-01
-#states
 abcd
+#states
+FEDCBAS
 #final_states
-d
+S
 #matrix
-.b
-.c
-cd
-dd
+[.][E][B][BA]
+[.][.][D][.]
+[C][.][S][.]
+[.][S][.][.]
+[.][BA][.][.]
+[S][.][.][.]
+[D][.][.][.]

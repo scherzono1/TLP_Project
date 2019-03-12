@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def readAutomata(f):
     global states, inputs, final_states
     # deletes comments in file
@@ -42,9 +41,8 @@ def drawAutomata(states, inputs, automata):
     return 0
 
 
-def testAutomata(automata, states, inputs, final_states):
-    accepted = True
-    input_string = str(input())
+def testAutomata(automata, states, inputs, final_states,input_string):
+    accepted = True 
     for i in input_string:
         if (belongs_to_list(i, inputs) == False):
             return False
@@ -85,7 +83,11 @@ print(states)
 print('automata:')
 print(automata)
 print('Write down a word to test the automata:')
-if (testAutomata(automata, states, inputs, final_states) == True):
-    print('correct word!')
-else:
-    print('wrong')
+input_string = str(input())
+while input_string != 'end':
+    if (testAutomata(automata, states, inputs, final_states,input_string) == True):
+        print('correct word!')
+    else:
+        print('wrong')
+    print('Write down another word to test the automata:')
+    input_string = str(input())
