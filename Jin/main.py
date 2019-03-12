@@ -2,7 +2,7 @@ import numpy as np
 
 
 def readAutomata(f):
-    global states, inputs, final_states
+    global states, inputs, final_statesm, num_inputs_NFA
     # deletes comments in file
     forg = open("testautomata.mat", "r")
     for s in forg:
@@ -12,6 +12,7 @@ def readAutomata(f):
     f = open(".automata.mat", "r")
 
     number_inputs = int(f.readline())
+    num_inputs_NFA = number_inputs
     number_states = int(f.readline())
 
     # reads possible inputs of automaton
@@ -48,8 +49,8 @@ def recSearchStates(start_state, mat, closure):
 
 
 def insertClosures(state_NFA, mat, closure):
-    for i in range(state_NFA):
-        recSearchStates(i, mat, closure)
+    for i in range(mat.size):
+        recSearchStates(mat[i], mat, closure)
 
     return 0
 
@@ -100,11 +101,47 @@ def transferClosures(closure, mat, input_NFA):
     return formatPackge(aux)
 
 
-def findPackges(closures):
+def confirmPackge(packges, packge):
+    for i in range(packges.size):
+        if comparePackge(packges[i], packge):
+            return True
+
+    return False
+
+
+def findPackges(closures, inputs_NFA, mat):
     packges = []
     packges.append(closures[0])
-    for i in range(closures.size):
-        
+    numPac = 0
+
+    while 1:
+        for i in range(inputs_NFA.size):
+            auxPac = transferClosures(closures[numPac], mat, inputs_NFA[i])
+            if confirmPackge(packges, auxPac):
+                continue
+            else:
+                packges.append(auxPac)
+
+        numPac += 1
+        if (numPac - 1) == packges.size:
+            break
+
+    newPac = np.chararray(numPac, unicode=True)
+    for i in range(numPac):
+        newPac.append(packges[i])
+
+    return newPac
+
+
+def makeResultset(packges, inputs_NFA, mat):
+    result_set = np.chararray((packges.size, inputs_NFA - 1), unicode=True)
+
+    for i in range(packges.size):
+        for j in range(inputs_NFA - 2):
+            result_set[i][j] = transferClosures(packges[i], mat, inputs_NFA[j])
+
+    return result_set
+
 
 def comparePackge(packge1, packge2):
     if packge1.size != packge2.size:
@@ -142,6 +179,7 @@ def makeMatrix(packges, result_set):
 states = []
 inputs = []
 final_states = []
+num_inputs_NFA = 0
 f = open(".automata.mat", "w")
 automata = readAutomata(f)
 print('inputs:')
@@ -150,3 +188,13 @@ print('states:')
 print(states)
 print('automata:')
 print(automata)
+inputs_NFA = np.chararray(num_inputs_NFA, unicode=True)
+for i in range(inputs_NFA.size):
+    inputs_NFA[i] = inputs[i]
+
+closures = make_NFA_Closures(automata)
+packges = findPackges(closures, inputs_NFA, automata)
+result_set = makeResultset(packges, inputs_NFA, automata)
+final = makeMatrix(packges, result_set)
+print(final)
+
