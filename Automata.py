@@ -6,13 +6,14 @@ class Automata:
         self.final_states = final_states
         self.initial_state = initial_state
 
-def readAutomata(f):
+def readAutomata():
     states = []
     inputs = []
     final_states= []
     initial_state = []
     mat = []
     # deletes comments in file
+    f = open(".automata.mat", "w")
     forg = open("automata.mat", "r")
     for s in forg:
         if (s[0] != '#'):
@@ -141,3 +142,14 @@ def printMatrix(m):
             mat += str ( m[i][j] )
         mat += '\n'
     print (mat)
+
+def testAutomata(a):
+    print('Write down a word to test the automata:')
+    input_string = str(input())
+    while input_string != 'end':
+        if (testAutomata(a.matrix, a.states, a.inputs, a.final_states,a.input_string) == True):
+            print('correct word!')
+        else:
+            print('wrong')
+        print('Write down another word to test the automata:')
+        input_string = str(input())
