@@ -1,48 +1,5 @@
 from Automata import *
 
-def readAutomata(f):
-    global states, inputs, final_states
-    # deletes comments in file
-    forg = open("automata.mat", "r")
-    for s in forg:
-        if (s[0] != '#'):
-            f.write(s)
-    f.close()
-    f = open(".automata.mat", "r")
-
-    number_inputs = int(f.readline())
-    number_states = int(f.readline())
-
-    # reads possible inputs of automaton
-    inputs_line = f.readline()
-    for i in range(number_inputs):
-        inputs.append(inputs_line[i])
-
-    # reads possible states of automaton
-    states_line = f.readline()
-    for i in range(number_states):
-        states.append(states_line[i])
-    # reads final states
-    final_states_line = f.readline()
-    for i in range (len(final_states_line)-1):
-        final_states.append(final_states_line[i])
-
-    # fills automata_matrix
-    mat = []
-    for i in range(number_states):
-        mat.append([])
-        s = f.readline()
-        for j in range(number_inputs):
-            mat[i].append([])
-            mat[i][j].append(s[j])
-    return mat
-
-
-def drawAutomata(states, inputs, automata):
-    # function to draw an automaton. to me able to vizualize it
-    return 0
-
-
 def testAutomata(automata, states, inputs, final_states,input_string):
     accepted = True 
     for i in input_string:
@@ -132,23 +89,20 @@ def printMatrix(m):
         mat += '\n'
     print (mat)
 
-# main
-states = []
-inputs = []
-final_states = []
-initial_state=['S']
-f = open(".automata.mat", "w")
-matrix = readAutomata(f)
+#MAIN
+matrix =    [[['A'],['C'],['D'],['F']],\
+            [['.'],['B'],['.'],['.']],\
+            [['.'],['B'],['F'],['F']],\
+            [['D'],['.'],['.'],['.']],\
+            [['S'],['.'],['E'],['.']],\
+            [['.'],['F'],['.'],['.']],\
+            [['.'],['.'],['.'],['.']]]
+        
+states = ['S','A','B','C','D','E','F']
+inputs = ['a','b','c','d']
+final_states = ['F']
+initial_state = ['S']
 a = Automata(matrix,states,inputs,final_states,initial_state)
 printAutomata(a)
 m = mirrorAutomata(a)
 printAutomata(m)
-#print('Write down a word to test the automata:')
-#input_string = str(input())
-#while input_string != 'end':
-#    if (testAutomata(automata, states, inputs, final_states,input_string) == True):
-#        print('correct word!')
-#    else:
-#        print('wrong')
-#    print('Write down another word to test the automata:')
-#    input_string = str(input())
