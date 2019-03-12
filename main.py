@@ -1,4 +1,4 @@
-import numpy as np
+from Automata import *
 
 def readAutomata(f):
     global states, inputs, final_states
@@ -24,15 +24,17 @@ def readAutomata(f):
         states.append(states_line[i])
     # reads final states
     final_states_line = f.readline()
-    for c in final_states_line:
-        final_states.append(c)
+    for i in range (len(final_states_line)-1):
+        final_states.append(final_states_line[i])
 
     # fills automata_matrix
-    mat = np.chararray((number_states, number_inputs), unicode=True)
+    mat = []
     for i in range(number_states):
+        mat.append([])
         s = f.readline()
         for j in range(number_inputs):
-            mat[i][j] = s[j]
+            mat[i].append([])
+            mat[i][j].append(s[j])
     return mat
 
 
@@ -70,24 +72,83 @@ def belongs_to_list(char, test):
     return belongs
 
 
+def mirrorAutomata(a):
+    print('Making mirror...')
+    m = []
+    #copies the dimensions of original automata matrix
+    for i in range (len(a.matrix)):
+        m.append([])
+        for j in range (len(a.matrix[i])):
+            m[i].append([])
+    
+    #find the mirrored indexes with its corresponding location
+    #in the original automata and adds theem to a list
+    indexes = []
+    for i in range (len(a.matrix)): 
+        indexes.append ( search_mirror(a.states[i],a) )
+    
+
+    #shows all the found indexes to be copied to mirror
+    print('FOUND INDEXES FOR MIRROR:')
+    printMatrix(indexes) 
+    
+    #puts the found indexes along with the appropiate state
+    #in the mirror matrix
+    for i in range( len(indexes) ):
+        for j in range (len(indexes[i])):
+            m[i][indexes[i][j][1]].append(indexes[i][j][0])
+    #puts the corresponding '.' char in the empty lists
+    for i in range(len(m)):
+        for j in range(len(m[i])):
+            if (len(m[i][j]) == 0):
+                m[i][j].append('.')
+    return Automata(m,a.states,a.inputs,a.initial_state,a.final_states)
+
+def search_mirror(target,a):
+    res = []
+    for i in range (len(a.matrix)):
+        for j in range(len(a.matrix[i])):
+            if a.matrix[i][j] == [ target ]:
+                res.append([a.states[i],j])
+    return res
+
+def printAutomata(a):
+    print('STATES:')
+    print (a.states)
+    print('INPUTS:')
+    print (a.inputs)
+    print('FINAL STATES:')
+    print (a.final_states)
+    print('INITIAL STATE:')
+    print (a.initial_state)
+    print('MATRIX:')
+    printMatrix(a.matrix)
+
+def printMatrix(m):
+    mat = ''
+    for i in range (len(m)):
+        for j in range (len(m[i])):
+            mat += str ( m[i][j] )
+        mat += '\n'
+    print (mat)
+
 # main
 states = []
 inputs = []
 final_states = []
+initial_state=['S']
 f = open(".automata.mat", "w")
-automata = readAutomata(f)
-print('inputs:')
-print(inputs)
-print('states:')
-print(states)
-print('automata:')
-print(automata)
-print('Write down a word to test the automata:')
-input_string = str(input())
-while input_string != 'end':
-    if (testAutomata(automata, states, inputs, final_states,input_string) == True):
-        print('correct word!')
-    else:
-        print('wrong')
-    print('Write down another word to test the automata:')
-    input_string = str(input())
+matrix = readAutomata(f)
+a = Automata(matrix,states,inputs,final_states,initial_state)
+printAutomata(a)
+m = mirrorAutomata(a)
+printAutomata(m)
+#print('Write down a word to test the automata:')
+#input_string = str(input())
+#while input_string != 'end':
+#    if (testAutomata(automata, states, inputs, final_states,input_string) == True):
+#        print('correct word!')
+#    else:
+#        print('wrong')
+#    print('Write down another word to test the automata:')
+#    input_string = str(input())
