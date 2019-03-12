@@ -7,6 +7,8 @@
 abcd
 #states
 FEDCBAS
+#initial_states
+S
 #final_states
 F
 #matrix

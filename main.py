@@ -1,7 +1,11 @@
 from Automata import *
 
 def readAutomata(f):
-    global states, inputs, final_states
+    states = []
+    inputs = []
+    final_states= []
+    initial_state = []
+    mat = []
     # deletes comments in file
     forg = open("automata.mat", "r")
     for s in forg:
@@ -22,26 +26,26 @@ def readAutomata(f):
     states_line = f.readline()
     for i in range(number_states):
         states.append(states_line[i])
+    
+    # reads initial states
+    initial_state_line = f.readline()
+    for i in range (len(initial_state_line)-1):
+        initial_state.append(initial_state_line[i])
+    
     # reads final states
     final_states_line = f.readline()
     for i in range (len(final_states_line)-1):
         final_states.append(final_states_line[i])
 
     # fills automata_matrix
-    mat = []
     for i in range(number_states):
         mat.append([])
         s = f.readline()
         for j in range(number_inputs):
             mat[i].append([])
             mat[i][j].append(s[j])
-    return mat
-
-
-def drawAutomata(states, inputs, automata):
-    # function to draw an automaton. to me able to vizualize it
-    return 0
-
+    
+    return Automata(mat,states,inputs,final_states,initial_state)
 
 def testAutomata(automata, states, inputs, final_states,input_string):
     accepted = True 
@@ -133,13 +137,8 @@ def printMatrix(m):
     print (mat)
 
 # main
-states = []
-inputs = []
-final_states = []
-initial_state=['S']
 f = open(".automata.mat", "w")
-matrix = readAutomata(f)
-a = Automata(matrix,states,inputs,final_states,initial_state)
+a = readAutomata(f)
 printAutomata(a)
 m = mirrorAutomata(a)
 printAutomata(m)
