@@ -64,9 +64,9 @@ def testAutomata(automata, states, inputs, final_states,input_string):
 
 
 def search_automata(automata, states, inputs, s, i, max_i, final_states):
-    cur_input = int(inputs[i])
+    cur_input = inputs[i]
     if i + 1 > max_i:
-        if belongs_to_list(str(automata[s][cur_input]), final_states) == True:
+        if (belongs_to_list(automata[s][cur_input]), final_states) == True:
             return True
         else:
             return False
@@ -143,11 +143,11 @@ def printMatrix(m):
         mat += '\n'
     print (mat)
 
-def testAutomata(a):
+def test(a):
     print('Write down a word to test the automata:')
     input_string = str(input())
     while input_string != 'end':
-        if (testAutomata(a.matrix, a.states, a.inputs, a.final_states,a.input_string) == True):
+        if (testAutomata(a.matrix, a.states, a.inputs, a.final_states,input_string) == True):
             print('correct word!')
         else:
             print('wrong')
