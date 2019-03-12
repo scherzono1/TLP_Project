@@ -38,10 +38,9 @@ def readAutomata(f):
 
 
 def recSearchStates(start_state, mat, closure):
-    for i in range(mat[0]):
-        if mat[start_state][i].size:
-            for j in range(mat[0][i].size):
-                recSearchStates(mat[0][i][j], mat, closure)
+    if mat[start_state][mat[0].size - 1]:
+        for i in range(mat[start_state][mat[0].size - 1]):
+            recSearchStates(mat[start_state][mat[0].size - 1][i], mat, closure)
 
     closure.append(start_state)
 
@@ -49,12 +48,8 @@ def recSearchStates(start_state, mat, closure):
 
 
 def insertClosures(state_NFA, mat, closure):
-    i = 0
-
-    while i < state_NFA:
-        closure.append(i)
+    for i in range(state_NFA):
         recSearchStates(i, mat, closure)
-        i += 1
 
     return 0
 
@@ -68,19 +63,19 @@ def make_NFA_Closures(mat):
 
 def formatPackge(pacakge):
     newPackge = np.chararray(pacakge.size, unicode=True)
-    minAux = 999
+    minAux = pacakge[0]
     index = 0
 
     while pacakge.size:
         for i in range(pacakge.size):
-            if pacakge[i] < minAux:
+            if pacakge[i] <= minAux:
                 minAux = pacakge[i]
                 index = i
 
         newPackge.append(minAux)
         aux = [minAux]
-        minAux = 999
         pacakge.delete(aux, index)
+        minAux = pacakge[0]
 
     return newPackge
 
@@ -105,6 +100,12 @@ def transferClosures(closure, mat, input_NFA):
     return formatPackge(aux)
 
 
+def findPackges(closures):
+    packges = []
+    packges.append(closures[0])
+    for i in range(closures.size):
+        
+
 def comparePackge(packge1, packge2):
     if packge1.size != packge2.size:
         return False
@@ -118,11 +119,24 @@ def comparePackge(packge1, packge2):
         return True
 
 
-def makeMatrix(packges):
-    automaton = np.chararray((num_packges, num_inputs), unicode=True)
+def locatePackge(packges, packge):
+    for i in range(packges.size):
+        if comparePackge(packges[i], packge):
+            return i
+
+
+def makeMatrix(packges, result_set):
+    global num_inputs
+    automaton = np.chararray((result_set.size, num_inputs), unicode=True)
     for i in range(automaton.size):
         for j in range(automaton[0].size):
-            
+            if result_set[i][j]:
+                automaton[i][j] = locatePackge(packges, result_set[i][j])
+            else:
+                automaton[i][j] = '.'
+
+    return automaton
+
 
 # main
 states = []
