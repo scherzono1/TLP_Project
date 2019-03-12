@@ -47,12 +47,6 @@ def readAutomata(f):
     
     return Automata(mat,states,inputs,final_states,initial_state)
 
-
-def drawAutomata(states, inputs, automata):
-    # function to draw an automaton. to me able to vizualize it
-    return 0
-
-
 def testAutomata(automata, states, inputs, final_states,input_string):
     accepted = True 
     for i in input_string:
