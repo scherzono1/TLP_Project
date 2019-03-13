@@ -5,6 +5,7 @@ class Automata:
         self.inputs = inputs
         self.final_states = final_states
         self.initial_state = initial_state
+        self.newStates=[]
 
 def readAutomata():
     states = []
@@ -153,3 +154,31 @@ def test(a):
             print('wrong')
         print('Write down another word to test the automata:')
         input_string = str(input())
+def NFAtoDFA(a):
+    new = []
+    newmatrix = []
+    for i in range ( len(a.matrix) ):
+        for j in range ( len(a.matrix[i]) ):
+            if len(a.matrix[i][j]) > 1:
+                new.append(a.matrix[i][j])
+    print('found:')
+    print(new)
+    for i in range (len(new)):
+        newmatrix.append([])
+        for j in range(len(a.matrix[0])):
+            newmatrix[i].append([])
+    print('concatenated new states...')
+    for i in range (len (new)):
+        for c in new[i]:
+            for k in ( a.matrix[a.states.index(c)] ):
+                if k != ['.']:
+                    newmatrix[i][a.matrix[a.states.index(c)].index(k)] = k
+    for i in range (len (newmatrix)):
+        for j in range(len(newmatrix[i])):
+            if len(newmatrix[i][j]) == 0:
+                newmatrix[i][j] = ['.']
+    for i in range (len(new)):
+        a.matrix.append(newmatrix[i])
+    a.newstates = new
+    printMatrix(a.matrix)            
+                    

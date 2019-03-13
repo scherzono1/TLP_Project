@@ -5,7 +5,7 @@
 #inputs
 abcd
 #states
-FEDCBAS
+SABCDEF
 #initial_states
 S
 #final_states
