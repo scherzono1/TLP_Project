@@ -1,0 +1,20 @@
+#number of possible inputs
+4
+#number of possible states
+7
+#inputs
+abcd
+#states
+FEDCBAS
+#initial_states
+S
+#final_states
+F
+#matrix
+ACDF
+.B..
+.BFF
+D...
+S.E.
+.F..
+....
