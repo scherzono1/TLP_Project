@@ -5,7 +5,6 @@ class Automata:
         self.inputs = inputs
         self.final_states = final_states
         self.initial_state = initial_state
-        self.newStates=[]
 
 def readAutomata():
     states = []
