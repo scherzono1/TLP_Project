@@ -97,9 +97,6 @@ def mirrorAutomata(a):
     for i in range (len(a.matrix)): 
         indexes.append ( search_mirror(a.states[i],a) )
     
-
-    #shows all the found indexes to be copied to mirror
-    
     #puts the found indexes along with the appropiate state
     #in the mirror matrix
     for i in range( len(indexes) ):
