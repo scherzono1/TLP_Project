@@ -185,7 +185,7 @@ def NFAtoDFA(a):
                     a.matrix[i][j]=concat(a.matrix[i][j])
         for s in newstates:
             a.states.append(s)
-        return a
+    return a
 def concat(l):
     new = []
     string = ''
