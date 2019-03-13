@@ -84,7 +84,6 @@ def belongs_to_list(char, test):
 
 
 def mirrorAutomata(a):
-    print('Making mirror...')
     m = []
     #copies the dimensions of original automata matrix
     for i in range (len(a.matrix)):
@@ -100,8 +99,6 @@ def mirrorAutomata(a):
     
 
     #shows all the found indexes to be copied to mirror
-    print('FOUND INDEXES FOR MIRROR:')
-    printMatrix(indexes) 
     
     #puts the found indexes along with the appropiate state
     #in the mirror matrix
@@ -163,22 +160,17 @@ def NFAtoDFA(a):
                     new.append(a.matrix[i][j])
         if(len(new) == 0):
             break
-        print(new)
         for i in range (len(new)):
             for c in new[i]:
                 if belongs_to_list(c,a.final_states) == True:
                     a.final_states.append(new[i])
-        print(a.final_states)
         newstates=[]
-        print('new states are: ')
         for i in range(len(new)):
             newstates.append(concat(new[i]))
-        print(newstates)
         for i in range (len(new)):
             newmatrix.append([])
             for j in range(len(a.matrix[0])):
                 newmatrix[i].append([])
-        print('concatenated new states...')
         for i in range (len (new)):
             for c in new[i]:
                 for k in ( a.matrix[a.states.index(c)] ):
