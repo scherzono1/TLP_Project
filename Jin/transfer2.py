@@ -54,7 +54,7 @@ def makeClosure(m, inputs, states, initial):
             if m[i][j] != '.':
                 aux = []
                 for k in range(len(m[i][j])):
-                    if len(m[i][j][k]):
+                    if len(m[i][j][k]) > 0:
                         aux.append(m[i][j][k])
                 if confirmPackge(closures, aux):
                     closures[i].append(aux)
