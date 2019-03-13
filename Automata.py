@@ -163,6 +163,11 @@ def NFAtoDFA(a):
                 new.append(a.matrix[i][j])
     print('found:')
     print(new)
+    newstates=[]
+    print('new states are: ')
+    for i in range(len(new)):
+        newstates.append(concat(new[i]))
+    print(newstates)
     for i in range (len(new)):
         newmatrix.append([])
         for j in range(len(a.matrix[0])):
@@ -179,6 +184,16 @@ def NFAtoDFA(a):
                 newmatrix[i][j] = ['.']
     for i in range (len(new)):
         a.matrix.append(newmatrix[i])
+    for i in range (len(a.matrix)):
+        for j in range(len(a.matrix[i])):
+            if len(a.matrix[i][j])>1:
+                a.matrix[i][j]=concat(a.matrix[i][j])
     a.newstates = new
     printMatrix(a.matrix)            
-                    
+def concat(l):
+    new = []
+    string = ''
+    for c in l:
+        string+=c
+    new.append(string)
+    return new
