@@ -155,41 +155,45 @@ def test(a):
         print('Write down another word to test the automata:')
         input_string = str(input())
 def NFAtoDFA(a):
-    new = []
-    newmatrix = []
-    for i in range ( len(a.matrix) ):
-        for j in range ( len(a.matrix[i]) ):
-            if len(a.matrix[i][j]) > 1:
-                new.append(a.matrix[i][j])
-    print('found:')
-    print(new)
-    newstates=[]
-    print('new states are: ')
-    for i in range(len(new)):
-        newstates.append(concat(new[i]))
-    print(newstates)
-    for i in range (len(new)):
-        newmatrix.append([])
-        for j in range(len(a.matrix[0])):
-            newmatrix[i].append([])
-    print('concatenated new states...')
-    for i in range (len (new)):
-        for c in new[i]:
-            for k in ( a.matrix[a.states.index(c)] ):
-                if k != ['.']:
-                    newmatrix[i][a.matrix[a.states.index(c)].index(k)] = k
-    for i in range (len (newmatrix)):
-        for j in range(len(newmatrix[i])):
-            if len(newmatrix[i][j]) == 0:
-                newmatrix[i][j] = ['.']
-    for i in range (len(new)):
-        a.matrix.append(newmatrix[i])
-    for i in range (len(a.matrix)):
-        for j in range(len(a.matrix[i])):
-            if len(a.matrix[i][j])>1:
-                a.matrix[i][j]=concat(a.matrix[i][j])
-    a.newstates = new
-    printMatrix(a.matrix)            
+    while True:
+        new = []
+        newmatrix = []
+        for i in range ( len(a.matrix) ):
+            for j in range ( len(a.matrix[i]) ):
+                if len(a.matrix[i][j]) > 1:
+                    new.append(a.matrix[i][j])
+        if(len(new) == 0):
+            break
+        print('found:')
+        print(new)
+        newstates=[]
+        print('new states are: ')
+        for i in range(len(new)):
+            newstates.append(concat(new[i]))
+        print(newstates)
+        for i in range (len(new)):
+            newmatrix.append([])
+            for j in range(len(a.matrix[0])):
+                newmatrix[i].append([])
+        print('concatenated new states...')
+        for i in range (len (new)):
+            for c in new[i]:
+                for k in ( a.matrix[a.states.index(c)] ):
+                    if k != ['.']:
+                        newmatrix[i][a.matrix[a.states.index(c)].index(k)] = k
+        for i in range (len (newmatrix)):
+            for j in range(len(newmatrix[i])):
+                if len(newmatrix[i][j]) == 0:
+                    newmatrix[i][j] = ['.']
+        for i in range (len(new)):
+            a.matrix.append(newmatrix[i])
+        for i in range (len(a.matrix)):
+            for j in range(len(a.matrix[i])):
+                if len(a.matrix[i][j])>1:
+                    a.matrix[i][j]=concat(a.matrix[i][j])
+        a.newstates = new
+        printMatrix(a.matrix)
+
 def concat(l):
     new = []
     string = ''
